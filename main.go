@@ -14,7 +14,9 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-uuid"
-	"github.com/jcmturner/golick/licence"
+	"github.com/pitw/golick/licence"
+	"log"
+	"github.com/hectane/go-acl"
 )
 
 const appTitle = "Go licence generator"
@@ -114,6 +116,8 @@ func loadPvtKey(r io.Reader) (*rsa.PrivateKey, error) {
 
 func initLicKeyPair(path string) (string, string, error) {
 	pair, _ := rsa.GenerateKey(rand.Reader, 2048)
+	//test debug
+	log.Println("TEST")
 
 	pubbytes := x509.MarshalPKCS1PublicKey(pair.Public().(*rsa.PublicKey))
 	pvtbytes := x509.MarshalPKCS1PrivateKey(pair)
@@ -130,8 +134,9 @@ func initLicKeyPair(path string) (string, string, error) {
 	if err != nil {
 		return "", "", err
 	}
-	err = pvtFile.Chmod(0600)
+	err = acl.Chmod(pvtFile.Name(),0600)
 	if err != nil {
+		log.Println(err)
 		return "", "", err
 	}
 	_, err = pvtFile.WriteString(hex.EncodeToString(pvtbytes))
@@ -143,7 +148,7 @@ func initLicKeyPair(path string) (string, string, error) {
 	if err != nil {
 		return "", "", err
 	}
-	err = pubFile.Chmod(0644)
+	err = acl.Chmod(pubFile.Name(),0644)
 	if err != nil {
 		return "", "", err
 	}
