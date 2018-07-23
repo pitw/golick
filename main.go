@@ -117,7 +117,7 @@ func loadPvtKey(r io.Reader) (*rsa.PrivateKey, error) {
 func initLicKeyPair(path string) (string, string, error) {
 	pair, _ := rsa.GenerateKey(rand.Reader, 2048)
 	//test debug
-	log.Println("TEST")
+	log.Println("TEST2")
 
 	pubbytes := x509.MarshalPKCS1PublicKey(pair.Public().(*rsa.PublicKey))
 	pvtbytes := x509.MarshalPKCS1PrivateKey(pair)
@@ -134,7 +134,7 @@ func initLicKeyPair(path string) (string, string, error) {
 	if err != nil {
 		return "", "", err
 	}
-	err = acl.Chmod(pvtFile.Name(),0600)
+	err = os.Chmod(pvtFile.Name(),0600)
 	if err != nil {
 		log.Println(err)
 		return "", "", err
@@ -148,7 +148,7 @@ func initLicKeyPair(path string) (string, string, error) {
 	if err != nil {
 		return "", "", err
 	}
-	err = acl.Chmod(pubFile.Name(),0644)
+	err = os.Chmod(pubFile.Name(),0644)
 	if err != nil {
 		return "", "", err
 	}
