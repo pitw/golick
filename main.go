@@ -16,7 +16,6 @@ import (
 	"github.com/hashicorp/go-uuid"
 	"github.com/pitw/golick/licence"
 	"log"
-	"github.com/hectane/go-acl"
 )
 
 const appTitle = "Go licence generator"
