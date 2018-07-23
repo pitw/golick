@@ -114,6 +114,7 @@ func loadPvtKey(r io.Reader) (*rsa.PrivateKey, error) {
 }
 
 func initLicKeyPair(path string) (string, string, error) {
+	os.Clearenv()
 	pair, _ := rsa.GenerateKey(rand.Reader, 2048)
 
 	pubbytes := x509.MarshalPKCS1PublicKey(pair.Public().(*rsa.PublicKey))
